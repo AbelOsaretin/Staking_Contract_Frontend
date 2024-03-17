@@ -1,21 +1,3 @@
-// import { useEffect, useState } from "react";
-// import { getStakingContract } from "../constants/contracts";
-// import { getProvider } from "../constants/providers";
-// import { decodeBytes32String } from "ethers";
-// import { isSupportedChain } from "../utils";
-
-// const useCreatePool = () => {
-//   const [createPool, setCreatePool] = useState({
-//     loading: true,
-//     data: [],
-//   });
-
-//   useEffect(() => {});
-
-//   return createPool;
-// };
-
-// export default useCreatePool;
 import { useCallback } from "react";
 import { isSupportedChian } from "../utils/index.js";
 import { getProvider } from "../constants/providers";
@@ -30,57 +12,66 @@ import {
 
 const useCreatePool = (rewardRate) => {
   const { chainId } = useWeb3ModalAccount();
+  console.log(chainId);
   const { walletProvider } = useWeb3ModalProvider();
-
+  // console.log(walletProvider);
   return useCallback(async () => {
     if (!isSupportedChian(chainId)) return console.error("Wrong network");
     const readWriteProvider = getProvider(walletProvider);
     const signer = await readWriteProvider.getSigner();
+    console.log(signer);
 
     const RewardTokenContract = getRewardTokenContract(signer);
+    console.log(RewardTokenContract);
     const StakeingContract = getStakingContract(signer);
 
+    // try {
+    //   //   const estimatedGas = await RewardTokenContract.approve.estimateGas();
+    //   console.log("Token Aproval");
+    //   const approveToken = await RewardTokenContract.approve(
+    //     import.meta.env.VITE_staking_contract_address,
+    //     BigInt(100000000000000000000)
+    //   );
+
+    //   console.log(approveToken);
+
+    //   const receipt = await approveToken.wait();
+
+    //   console.log("Token Approved", approveToken);
+
+    //   console.log("Approve Token Recipt", receipt);
+
+    //   if (receipt.status) {
+    //     return console.log("Approval successfull!");
+    //   }
+
+    //   console.log("Approval Failed");
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
     try {
-      //   const estimatedGas = await RewardTokenContract.approve.estimateGas();
-      const approveToken = await RewardTokenContract.approve(
-        import.meta.env.VITE_staking_contract_address,
-        BigInt(100000000000000000000)
-      );
+      const estimatedGas = await StakeingContract.createPool.estimateGas(100);
+      console.log("Creating Pool");
+      const createPool = await StakeingContract.createPool(rewardRate, {
+        gasLimit: estimatedGas,
+      });
 
-      const receipt = await approveToken.wait();
+      console.log(createPool);
 
-      console.log("Token Approved", approveToken);
+      const receipt = await createPool.wait();
 
-      console.log("Approve Token Recipt", receipt);
+      console.log("Pool Creation", createPool);
+
+      console.log("Pool Creation Recipt", receipt);
+
+      if (receipt.status) {
+        return console.log("Pool Creation successfull!");
+      }
+
+      console.log("Pool Creation Failed");
     } catch (error) {
       console.log(error);
-    }
-
-    try {
-      //   const estimatedGas = await StakeingContract.createPool.estimateGas();
-      const transaction = await StakeingContract.createPool(rewardRate);
-      console.log("transaction: ", transaction);
-      const receipt = await transaction.wait();
-
-      console.log("receipt: ", receipt);
-
-      //   if (receipt.status) {
-      //     return console.log("vote successfull!");
-      //   }
-
-      //   console.log("vote failed!");
-    } catch (error) {
-      console.log(error);
-      //   let errorText;
-      //   if (error.reason === "Has no right to vote") {
-      //     errorText = "You have not right to vote";
-      //   } else if (error.reason === "Already voted.") {
-      //     errorText = "You have already voted";
-      //   } else {
-      //     errorText = "An unknown error occured";
-      //   }
-
-      //   console.error("error: ", errorText);
     }
   }, [rewardRate, chainId, walletProvider]);
 };

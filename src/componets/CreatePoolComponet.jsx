@@ -1,19 +1,12 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  Flex,
-  Text,
-  TextField,
-} from "@radix-ui/themes";
+import { Box, Button, Card, Flex, Text, TextField } from "@radix-ui/themes";
 import { useState } from "react";
 import useCreatePool from "../hooks/useCreatePool";
 
-const CreatePoolComponet = () => {
-  const [rewardRate, setRewardRate] = useState("");
-
-  const handleCreatePool = useCreatePool(rewardRate);
+const CreatePoolComponet = ({
+  rewardRate,
+  setRewardRate,
+  handleCreatePool,
+}) => {
   return (
     <Card size="2" style={{ width: 425 }}>
       <Flex gap="" align="center">

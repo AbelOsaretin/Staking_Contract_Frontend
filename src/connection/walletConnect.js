@@ -1,12 +1,12 @@
 import { createWeb3Modal, defaultConfig } from "@web3modal/ethers/react";
 
-export const SUPPORTED_CHAIN = 80001;
+export const SUPPORTED_CHAIN = 11155111;
 
 const mumbai = {
   chainId: SUPPORTED_CHAIN,
-  name: "Mumbai",
-  currency: "Matic",
-  explorerUrl: "https://mumbai.polygonscan.com",
+  name: "Sepolia",
+  currency: "ETH",
+  explorerUrl: "https://sepolia.etherscan.com",
   rpcUrl: import.meta.env.VITE_rpc_url,
 };
 

@@ -47,6 +47,8 @@ const useStake = (poolId, amount) => {
         amount
       );
 
+      console.log(approveToken);
+
       const receipt = await approveToken.wait();
 
       console.log("Token Approved", approveToken);
@@ -64,11 +66,11 @@ const useStake = (poolId, amount) => {
 
       console.log("receipt: ", receipt);
 
-      //   if (receipt.status) {
-      //     return console.log("vote successfull!");
-      //   }
+      if (receipt.status) {
+        return console.log("Stake successfull!");
+      }
 
-      //   console.log("vote failed!");
+      console.log("vote failed!");
     } catch (error) {
       console.log(error);
       //   let errorText;

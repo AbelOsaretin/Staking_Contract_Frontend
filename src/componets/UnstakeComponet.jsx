@@ -14,19 +14,15 @@ const UnstakeComponet = () => {
   const [poolID, setPoolID] = useState("");
   const [amount, setAmount] = useState("");
 
-  const unstake = useUnstake();
+  const unstake = useUnstake(poolID);
 
-  const handleUnstake = async () => {
-    if (!poolID) {
-      alert("Please enter a Pool ID");
-      return;
-    }
-    await unstake(poolID);
-  };
-
-  const handleAmountChange = (e) => {
-    setAmount(e.target.value);
-  };
+  // const handleUnstake = async () => {
+  //   if (!poolID) {
+  //     alert("Please enter a Pool ID");
+  //     return;
+  //   }
+  //   await unstake(poolID);
+  // };
 
   const handlePoolIDChange = (e) => {
     setPoolID(e.target.value);
@@ -76,7 +72,7 @@ const UnstakeComponet = () => {
                 placeholder="Enter Pool Id"
               />
             </label>
-            <Button className="bg-blue-600" onClick={handleUnstake}>
+            <Button className="bg-blue-600" onClick={unstake}>
               Unstake
             </Button>
           </Flex>

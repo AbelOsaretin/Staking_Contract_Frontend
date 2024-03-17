@@ -1,21 +1,3 @@
-// import { useEffect, useState } from "react";
-// import { getStakingContract } from "../constants/contracts";
-// import { getProvider } from "../constants/providers";
-// import { decodeBytes32String } from "ethers";
-// import { isSupportedChain } from "../utils";
-
-// const useCreatePool = () => {
-//   const [createPool, setCreatePool] = useState({
-//     loading: true,
-//     data: [],
-//   });
-
-//   useEffect(() => {});
-
-//   return createPool;
-// };
-
-// export default useCreatePool;
 import { useCallback } from "react";
 import { isSupportedChian } from "../utils/index.js";
 import { getProvider } from "../constants/providers";
